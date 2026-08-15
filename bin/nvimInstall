@@ -18,10 +18,9 @@ export DOTFILE_GIT_REPOS="${DOTFILE_GIT_REPOS:=$HOME/devel/dotfiles}"
 
 export DF_ACTION=install
 
-# export DOTFILES_GIT_REPO="${NVIM_DOTFILES_GIT_REPO:=$DOTFILE_GIT_REPOS/nvim_dotfiles}"
-export DOTFILES_GIT_REPO="${NVIM_DOTFILES_GIT_REPO:=$DOTFILE_GIT_REPOS}"
-cd "$DOTFILES_GIT_REPO/home" || {
-    printf '%s: failed to cd into %s\n' "$SCRIPT_NAME" "$DOTFILES_GIT_REPO/home" >&2
+export DOTFILES_GIT_REPO="${NVIM_DOTFILES_GIT_REPO:=$DOTFILE_GIT_REPOS/nvim-dotfiles}"
+cd "$DOTFILES_GIT_REPO/nvim" || {
+    printf '%s: failed to cd into %s\n' "$SCRIPT_NAME" "$DOTFILES_GIT_REPO/nvim" >&2
     exit 1
 }
 
@@ -112,7 +111,7 @@ then
     if test ! -e "$spell_file"
     then
         compile_spell_file=yes
-    elif diff -q "$spell_file" config/nvim/spell/en.utf-8.add 2>&1
+    elif diff -q "$spell_file" spell/en.utf-8.add 2>&1
     then
         compile_spell_file=no
     else
@@ -128,7 +127,7 @@ case "$DF_ACTION" in
         process_files "$XDG_CONFIG_HOME/nvim" "
             $dot_config_files
             $toml_files
-        " config/nvim 0644
+        " . 0644
         chmod 0755 "$XDG_CONFIG_HOME/nvim"
  
         # Remove/report no longer needed files and directories
