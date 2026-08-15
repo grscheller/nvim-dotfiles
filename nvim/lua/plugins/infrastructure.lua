@@ -1,0 +1,328 @@
+--[[ Infrastructure
+
+     - LazyDev ()
+     - Nvim lastplace (return to last place file was edited)
+     - Telescope (search, filter, find & pick items)
+     - Whichkey (make keymaps discoverable)
+]]
+
+---@type LazySpec
+return {
+   -- LazyDev — on-demand lua-language-server enhancement for Neovim dev.
+   ---@type LazyPluginSpec
+   {
+      [1] = 'folke/lazydev.nvim',
+      ft = 'lua',
+      opts = {
+         library = {
+            -- libuv bindings, only when the buffer actually references them.
+            {
+               path = '${3rd}/luv/library',
+               words = { 'vim%.uv', 'vim%.loop', 'uv%.' },
+            },
+            -- lazy.nvim meta types: LazySpec, LazyPluginSpec, LazyKeysSpec, ...
+            -- `%u` (uppercase) after `Lazy` avoids matching the lowercase
+            -- 'lazydev'/'lazy.nvim' substrings in plugin URLs.
+            {
+               path = 'lazy.nvim',
+               words = { 'Lazy%u%w+' },
+            },
+         },
+      },
+   },
+
+   -- When re-editing a file, return to last cursor location line.
+   ---@type LazyPluginSpec
+   {
+      -- Configured via `config/globals.lua`.
+      'mrcjkb/nvim-lastplace',
+   },
+
+   -- Highly extendable fuzzy finder over lists.
+   --   To open window showing keymaps for current picker,
+   --     Insert mode: <c-/>
+   --     Normal mode: ?
+   ---@type LazyPluginSpec
+   {
+      [1] = 'nvim-telescope/telescope.nvim',
+      dependencies = {
+         { 'nvim-lua/plenary.nvim' },
+         { 'nvim-tree/nvim-web-devicons' },
+         { 'nvim-telescope/telescope-ui-select.nvim' },
+         {
+            [1] = 'nvim-telescope/telescope-fzf-native.nvim',
+            build = 'make',
+            cond = function()
+               return vim.fn.executable 'make' == 1
+            end,
+         },
+      },
+      keys = {
+         {
+            'tgl',
+            function()
+               require('telescope.builtin').live_grep()
+            end,
+            desc = 'search by grep',
+         },
+         {
+            'tgo',
+            function()
+               require('telescope.builtin').live_grep {
+                  grep_open_files = true,
+                  prompt_title = 'Live Grep in Open Files',
+               }
+            end,
+            desc = 'grep open files',
+         },
+         {
+            'tgf',
+            function()
+               require('telescope.builtin').current_buffer_fuzzy_find(
+                  require('telescope.themes').get_dropdown {
+                     winblend = 50,
+                     previewer = false,
+                  }
+               )
+            end,
+            desc = 'fuzzily search in current buffer',
+         },
+         {
+            'to',
+            function()
+               require('telescope.builtin').oldfiles()
+            end,
+            desc = 'search recent files',
+         },
+         {
+            'tb',
+            function()
+               require('telescope.builtin').builtin()
+            end,
+            desc = 'search builtins',
+         },
+         {
+            'td',
+            function()
+               require('telescope.builtin').diagnostics()
+            end,
+            desc = 'search diagnostics',
+         },
+         {
+            'tf',
+            function()
+               require('telescope.builtin').find_files()
+            end,
+            desc = 'search files',
+         },
+         {
+            'th',
+            function()
+               require('telescope.builtin').help_tags()
+            end,
+            desc = 'search help',
+         },
+         {
+            'tk',
+            function()
+               require('telescope.builtin').keymaps()
+            end,
+            desc = 'search keymaps',
+         },
+         {
+            'tr',
+            function()
+               require('telescope.builtin').resume()
+            end,
+            desc = 'search resume',
+         },
+         {
+            'tw',
+            function()
+               require('telescope.builtin').grep_string()
+            end,
+            desc = 'search current word',
+         },
+      },
+      config = function()
+         local telescope = require 'telescope'
+         local themes = require 'telescope.themes'
+
+         telescope.setup {
+            defaults = {
+               -- mappings while in telescope
+               mappings = {
+                  i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+               },
+               prompt_prefix = ' ',
+               selection_caret = ' ',
+            },
+            extensions = {
+               file_browser = {
+                  theme = 'ivy',
+                  hijack_netrw = true,
+               },
+               fzf = {
+                  fuzzy = true,
+                  override_generic_sorter = true,
+                  override_file_sorter = true,
+                  case_mode = 'respect_case',
+               },
+               lazy = {
+                  theme = 'ivy',
+               },
+               notify = {},
+               ['ui-select'] = {
+                  themes.get_dropdown {},
+               },
+            },
+            pickers = {},
+         }
+
+         telescope.load_extension 'file_browser'
+         telescope.load_extension 'fzf'
+         telescope.load_extension 'lazy'
+         telescope.load_extension 'notify'
+         telescope.load_extension 'ui-select'
+      end,
+   },
+
+   -- File browser extension for telescope. Supports synchronized creation,
+   -- deletion, renaming, and moving of files and folders, with LSP integration.
+   ---@type LazyPluginSpec
+   {
+      [1] = 'nvim-telescope/telescope-file-browser.nvim',
+      dependencies = { 'nvim-telescope/telescope.nvim' },
+      keys = {
+         {
+            '<leader>f',
+            function()
+               local telescope = require 'telescope'
+               telescope.load_extension 'file_browser'
+               telescope.extensions.file_browser.file_browser()
+            end,
+            desc = 'file browser',
+         },
+      },
+   },
+
+   -- Telescope extension providing info about lazy.nvim managed plugins.
+   ---@type LazyPluginSpec
+   {
+      [1] = 'tsakirist/telescope-lazy.nvim',
+      dependencies = { 'nvim-telescope/telescope.nvim' },
+      keys = {
+         {
+            '<leader>sl',
+            function()
+               local telescope = require 'telescope'
+               telescope.load_extension 'lazy'
+               telescope.extensions.lazy.lazy()
+            end,
+            desc = 'telescope lazy',
+         },
+      },
+   },
+
+   -- Configure builtin treesitter
+   ---@type LazyPluginSpec
+   {
+      [1] = 'nvim-treesitter/nvim-treesitter',
+      branch = 'main',
+      lazy = false,
+      build = ':TSUpdate',
+      config = function()
+         -- Make sure parsers are up-to-date
+         require('nvim-treesitter').install(
+            require('config.treesitter').ensure_installed
+         )
+
+         -- Enable treesitter features per-buffer
+         vim.api.nvim_create_autocmd('FileType', {
+            group = vim.api.nvim_create_augroup('_treesitter', {}),
+            callback = function(args)
+               if pcall(vim.treesitter.start, args.buf) then
+                  vim.wo[0][0].foldmethod = 'expr'
+                  vim.wo[0][0].foldexpr =
+                  'v:lua.vim.treesitter.foldexpr()'
+                  vim.bo[args.buf].indentexpr =
+                  "v:lua.require('nvim-treesitter').indentexpr()"
+               end
+            end,
+         })
+      end,
+   },
+
+   -- Make keymaps discoverable
+   ---@type LazyPluginSpec
+   {
+      [1] = 'folke/which-key.nvim',
+      dependencies = { 'nvim-treesitter/nvim-treesitter' },
+      event = 'VeryLazy',
+      opts = {
+         plugins = {
+            spelling = {
+               enabled = true,
+               suggestions = 36,
+            },
+         },
+         -- Auto-triggers are never created for single lowercase keys
+         -- other than `g` and `z`, since they shadow builtins. `t` is
+         -- repurposed as the telescope prefix, so register it by hand.
+         -- Normal mode only -- `dt,` and `vt,` keep the builtin motion.
+         triggers = {
+            { '<auto>', mode = 'nxso' },
+            { 't', mode = 'n' },
+         },
+         spec = {
+            { ';',              group = 'lsp' },
+            { ',',              group = 'dap' },
+            { ';c',             group = 'code actions & lenses' },
+            { ';g',             group = 'goto' },
+            { ';i',             group = 'inlay hints' },
+            { ';s',             group = 'symbols' },
+            { ';w',             group = 'workspaces' },
+            { ',b',             group = 'breakpoint' },
+            { ',d',             group = 'dap session' },
+            { ',s',             group = 'step' },
+            { 't',              group = 'telescope picker' },
+            { 'tg',             group = 'telescope grep search' },
+            { '<m-g>',          group = 'gitsigns' },
+            { '<leader>b',      group = 'blackhole' },
+            { '<leader>l',      group = 'lazy' },
+            { '<leader>m',      group = 'mason' },
+            { '<leader>mr',     group = 'mason remove' },
+            { '<leader>t',      group = 'treesitter' },
+            { '<localleader>n', group = 'neorg' },
+         },
+      },
+      ---@return table keys
+      keys = function()
+         return {
+            -- which-key.nvim related
+            {
+               '<leader><tab>',
+               function()
+                  require('which-key').show { global = false }
+               end,
+               desc = 'Buffer Local Keymaps',
+            },
+
+            -- lazy.nvim related
+            { '<leader>lg', '<cmd>Lazy<cr>', desc = 'Lazy gui' },
+         }
+      end,
+   },
+
+   -- Provides nerd-font eye-candy
+   ---@type LazyPluginSpec
+   {
+      [1] = 'nvim-tree/nvim-web-devicons',
+      lazy = true,
+      opts = {
+         color_icons = true,
+         default = true,
+         strict = true,
+      },
+   },
+}
