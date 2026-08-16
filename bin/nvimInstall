@@ -77,6 +77,7 @@ dot_config_files='
     lua/core/lsp.lua
     lua/lib/functional.lua
     lua/lib/mason.lua
+    lua/lib/platform.lua
     lua/lib/scroll.lua
     lua/lib/text.lua
     lua/plugins/debug.lua
