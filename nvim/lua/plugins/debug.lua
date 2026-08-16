@@ -4,6 +4,8 @@
      - Language adapters
 ]]
 
+local platform = require 'lib.platform'
+
 ---@type LazySpec
 return {
    -- DAP debugging module
@@ -107,9 +109,9 @@ return {
             'debugpy',
             'venv'
          )
-         local debugpy_path = vim.fn.has 'win32' == 1
-               and vim.fs.joinpath(venv, 'Scripts', 'python.exe')
-            or vim.fs.joinpath(venv, 'bin', 'python')
+         local debugpy_path = platform.is_windows
+             and vim.fs.joinpath(venv, 'Scripts', 'python.exe')
+             or vim.fs.joinpath(venv, 'bin', 'python')
          require('dap-python').setup(debugpy_path)
       end,
    },
@@ -119,7 +121,7 @@ return {
    {
       -- virtual plugin spec
       dir = vim.fn.stdpath 'config', -- any real directory, this one is guaranteed to exist
-      name = 'dap-codelldb-config', -- arbitrary unique name
+      name = 'dap-codelldb-config',  -- arbitrary unique name
       dependencies = {
          'mfussenegger/nvim-dap',
       },
@@ -129,7 +131,7 @@ return {
             type = 'server',
             port = '${port}',
             executable = {
-               command = vim.fn.stdpath 'data' .. '/mason/bin/codelldb',
+               command = platform.exe 'codelldb' or 'codelldb',
                args = { '--port', '${port}' },
             },
          }

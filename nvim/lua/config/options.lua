@@ -1,6 +1,8 @@
 --[[ Options - loaded before lazy takes control ]]
 
-vim.o.shell = '/bin/sh' -- POSIX compatible shells are needed by some plugins
+local platform = require 'lib.platform'
+
+vim.o.shell = platform.shell -- some plugins need POSIX shells 
 
 -- Set default file encoding, localization, and file formats
 vim.o.fileencoding = 'utf-8'

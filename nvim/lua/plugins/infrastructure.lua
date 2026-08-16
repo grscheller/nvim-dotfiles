@@ -38,6 +38,18 @@ return {
       'mrcjkb/nvim-lastplace',
    },
 
+   {
+      [1] = 'nvim-telescope/telescope-fzf-native.nvim',
+      build = vim.fn.executable 'make' == 1 and 'make'
+         or 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release'
+            .. ' && cmake --build build --config Release'
+            .. ' && cmake --install build --prefix build',
+      cond = function()
+         return vim.fn.executable 'make' == 1
+            or vim.fn.executable 'cmake' == 1
+      end,
+   },
+
    -- Highly extendable fuzzy finder over lists.
    --   To open window showing keymaps for current picker,
    --     Insert mode: <c-/>
@@ -49,13 +61,8 @@ return {
          { 'nvim-lua/plenary.nvim' },
          { 'nvim-tree/nvim-web-devicons' },
          { 'nvim-telescope/telescope-ui-select.nvim' },
-         {
-            [1] = 'nvim-telescope/telescope-fzf-native.nvim',
-            build = 'make',
-            cond = function()
-               return vim.fn.executable 'make' == 1
-            end,
-         },
+         { 'nvim-telescope/telescope-fzf-native.nvim' },
+         { 'folke/noice.nvim' },  -- Have noice handle vim.notify calls
       },
       keys = {
          {
@@ -147,6 +154,8 @@ return {
       config = function()
          local telescope = require 'telescope'
          local themes = require 'telescope.themes'
+         local msg = ''
+         local ok = true
 
          telescope.setup {
             defaults = {
@@ -180,10 +189,14 @@ return {
          }
 
          telescope.load_extension 'file_browser'
-         telescope.load_extension 'fzf'
          telescope.load_extension 'lazy'
          telescope.load_extension 'notify'
          telescope.load_extension 'ui-select'
+         ok, msg = pcall(telescope.load_extension, 'fzf')
+         if not ok then
+            local fmt = 'Telescope fzf failed to load with message:\n\n  %s'
+            vim.notify(fmt:format(msg), vim.log.levels.WARN)
+         end
       end,
    },
 

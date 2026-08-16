@@ -1,6 +1,12 @@
---[[ Configure LSP servers, DAP adapters, Linters and Formatters ]]
+--[[ Configure LSP servers, DAP adapters, Linters and Formatters
+
+     Make sure mason's bin directory is available and trumps any system
+     installed version of the tools. Mason may not yet be lazy loaded.
+
+]]
 
 local functional = require 'lib.functional'
+local platform = require 'lib.platform'
 
 local concat = functional.concat_arrays
 local flatten = functional.flatten_array
@@ -10,11 +16,8 @@ local values = functional.get_table_values
 
 local M = {}
 
--- Make sure mason's bin directory is available and trumps any system
--- installed version of the tools. Mason may not yet be lazy loaded.
-local path_sep = vim.fn.has 'win32' == 1 and ';' or ':'
 vim.env.PATH = vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'bin')
-   .. path_sep
+   .. platform.path_list_sep
    .. vim.env.PATH
 
 -- LSP servers managed by Neovim via ~/.config/nvim/lsp/

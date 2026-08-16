@@ -4,16 +4,19 @@
 
 ]]
 
-local km = vim.keymap.set
+local platform = require 'lib.platform'
 local scroll = require 'lib.scroll'
+
+local km = vim.keymap.set
+local term = '<cmd>%s<bar>term ' .. platform.term_shell .. '<cr>i'
 
 --[[ keymappings not depending on external plugins ]]
 
 -- Creating new windows
 km('n', '<m-->', '<c-w>s', { desc = 'split current window' })
 km('n', '<m-=>', '<c-w>v', { desc = 'vsplit current window' })
-km('n', '<m-f>', '<cmd>vsplit<bar>term fish<cr>i', { desc = 'fish term right' })
-km('n', '<m-F>', '<cmd>split<bar>term fish<cr>i', { desc = 'fish term below' })
+km('n', '<m-f>', term:format 'vsplit', { desc = 'term right' })
+km('n', '<m-F>', term:format 'split', { desc = 'term below' })
 
 -- Navigating windows
 km('n', '<c-h>', '<c-w>h', { desc = 'goto window left' })
