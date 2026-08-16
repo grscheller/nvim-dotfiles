@@ -1,20 +1,20 @@
 ---@brief
 ---
---- https://ast-grep.github.io/
+---https://ast-grep.github.io/
 ---
---- ast-grep(sg) is a fast and polyglot tool for
---- code structural search, lint, rewriting at large scale.
+---ast-grep(sg) is a fast and polyglot tool for
+---code structural search, lint, rewriting at large scale.
 ---
---- ast-grep LSP only works in projects that have `sgconfig.yaml`
---- files in their root directories and `rules/*.yaml` files.
+---ast-grep LSP only works in projects that have `sgconfig.yaml`
+---files in their root directories and `rules/*.yaml` files.
 ---
---- Tests for rules are found in `rule-tests/*.yaml` with
---- corresponding names. To run tests, a necessary step,
---- run from the commandline
+---Tests for rules are found in `rule-tests/*.yaml` with
+---corresponding names. To run tests, a necessary step,
+---run from the commandline
 ---
---- ```
---- ast-grep test --update-all
---- ```
+---```sh
+---    ast-grep test --update-all
+---```
 
 ---@type vim.lsp.Config
 return {

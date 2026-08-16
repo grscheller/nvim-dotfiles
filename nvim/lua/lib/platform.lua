@@ -16,15 +16,17 @@ local M = {}
 -- Windows as well, and is the test Neovim itself documents.
 M.is_windows = vim.fn.has 'win32' == 1
 
---[[ Path components ]]
+--[[ Path components
 
--- Separator between entries of $PATH and friends.
---
--- Note there is deliberately no `path_sep` ('\' vs '/') here.
--- Neovim accepts forward slashes on Windows, and `vim.fs.joinpath`
--- already produces portable results, so nothing in this config
--- needs to build a path by hand.
-M.path_list_sep = M.is_windows and ';' or ':'
+     Separator between entries of $PATH and friends.
+
+     Note there is deliberately no `path_sep` ('\' vs '/') here.
+     Neovim accepts forward slashes on Windows, and `vim.fs.joinpath`
+     already produces portable results, so nothing in this config
+     needs to build a path by hand.
+
+     M.path_list_sep = M.is_windows and ';' or ':'
+]]
 
 --[[ Shells
 
@@ -61,19 +63,20 @@ M.term_shell = M.is_windows and 'pwsh' or 'fish'
 -- false on Windows when the MSYS2 fallback to `pwsh` kicked in.
 M.shell_is_posix = not M.is_windows or M.shell ~= 'pwsh'
 
---[[ Executable resolution ]]
+--[[ Executable resolution
 
----Resolve an executable to a full path.
----
----Needed because Mason and npm install `.cmd` shims on Windows
----rather than extension-less files, so an absolute path built by
----hand will not resolve. `exepath` applies $PATHEXT for us.
----
----Returns nil rather than a bare name when nothing is found, so
----callers decide whether a miss is fatal:
----
----   command = platform.exe 'codelldb' or 'codelldb',
----
+     Resolve an executable to a full path.
+
+     Needed because Mason and npm install `.cmd` shims on Windows
+     rather than extension-less files, so an absolute path built by
+     hand will not resolve. `exepath` applies $PATHEXT for us.
+
+     Returns nil rather than a bare name when nothing is found, so
+     callers decide whether a miss is fatal:
+
+        command = platform.exe 'codelldb' or 'codelldb',
+]]
+
 ---@param name string  Executable to look for on $PATH.
 ---@return string|nil  Full path, or nil when not found.
 function M.exe(name)
