@@ -154,8 +154,10 @@ return {
       config = function()
          local telescope = require 'telescope'
          local themes = require 'telescope.themes'
-         local msg = ''
-         local ok = true
+         ---@type boolean
+         local ok
+         ---@type any
+         local reason
 
          telescope.setup {
             defaults = {
@@ -192,10 +194,10 @@ return {
          telescope.load_extension 'lazy'
          telescope.load_extension 'notify'
          telescope.load_extension 'ui-select'
-         ok, msg = pcall(telescope.load_extension, 'fzf')
+         ok, reason = pcall(telescope.load_extension, 'fzf')
          if not ok then
-            local fmt = 'Telescope fzf failed to load with message:\n\n  %s'
-            vim.notify(fmt:format(msg), vim.log.levels.WARN)
+            local fmt = 'Telescope fzf failed to load for reason:\n\n  %s'
+            vim.notify(fmt:format(reason), vim.log.levels.WARN)
          end
       end,
    },
