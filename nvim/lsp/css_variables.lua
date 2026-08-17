@@ -1,14 +1,14 @@
 ---@brief
 ---
----https://github.com/vunguyentuan/vscode-css-variables/tree/master/packages/css-variables-language-server
+--- https://github.com/vunguyentuan/vscode-css-variables/tree/master/packages/css-variables-language-server
 ---
----CSS variables auto completion and go-to-definition
+--- CSS variables auto completion and go-to-definition
 ---
----`css-variables-language-server` can be installed via `npm`:
+--- `css-variables-language-server` can be installed via `npm`:
 ---
----```sh
----npm i -g css-variables-language-server
----```
+--- ```sh
+--- npm i -g css-variables-language-server
+--- ```
 
 ---@type vim.lsp.Config
 return {

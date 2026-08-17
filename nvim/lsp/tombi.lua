@@ -1,8 +1,8 @@
 ---@brief
 ---
----https://tombi-toml.github.io/tombi/
+--- https://tombi-toml.github.io/tombi/
 ---
----Language server for Tombi, a TOML toolkit.
+--- Language server for Tombi, a TOML toolkit.
 ---
 
 ---@type vim.lsp.Config

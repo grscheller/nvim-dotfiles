@@ -1,13 +1,13 @@
 ---@brief
 ---
----https://github.com/bash-lsp/bash-language-server
+--- https://github.com/bash-lsp/bash-language-server
 ---
----Language server for bash, written using tree sitter in typescript.
+--- Language server for bash, written using tree sitter in typescript.
 ---
----`bash-language-server` can be installed via `npm`:
+--- `bash-language-server` can be installed via `npm`:
 ---
----```sh
----    npm i -g bash-language-server
+--- ```sh
+--- npm i -g bash-language-server
 ---```
 
 ---@type vim.lsp.Config

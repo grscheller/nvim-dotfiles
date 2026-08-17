@@ -1,9 +1,9 @@
 ---@brief
 ---
----https://zubanls.com/
+--- https://zubanls.com/
 ---
----A high-performance Python Language Server and type checker implemented in Rust,
----by the author of Jedi.
+--- A high-performance Python Language Server and type checker implemented in Rust,
+--- by the author of Jedi.
 
 ---@type vim.lsp.Config
 return {
