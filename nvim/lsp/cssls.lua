@@ -21,7 +21,7 @@
 ---     vim.lsp.config('cssls', {
 ---        capabilities = capabilities,
 ---     })
----```
+--- ```
 
 ---@type vim.lsp.Config
 return {

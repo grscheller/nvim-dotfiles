@@ -2,7 +2,7 @@
 ---
 --- https://github.com/vunguyentuan/vscode-css-variables/tree/master/packages/css-variables-language-server
 ---
---- CSS variables auto completion and go-to-definition
+--- CSS variables autocompletion and go-to-definition
 ---
 --- `css-variables-language-server` can be installed via `npm`:
 ---
