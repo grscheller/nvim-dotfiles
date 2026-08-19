@@ -16,15 +16,17 @@ then
     : "${XDG_DATA_HOME:=$_local_app_data}"
     : "${XDG_STATE_HOME:=$_local_app_data}"
     : "${XDG_CACHE_HOME:=$_local_app_data/Temp}"
-    _nvim_data_dir=nvim-data
     unset _local_app_data
+    # shellcheck disable=SC2034  # consumed by nvimInstall after sourcing
+    nvim_data_dir=nvim-data
 else
     # Can be overridden for multiple configurations
     : "${XDG_CONFIG_HOME:=$HOME/.config}"
     : "${XDG_DATA_HOME:=$HOME/.local/share}"
     : "${XDG_STATE_HOME:=$HOME/.local/state}"
     : "${XDG_CACHE_HOME:=$HOME/.cache}"
-    _nvim_data_dir=nvim
+    # shellcheck disable=SC2034  # consumed by nvimInstall after sourcing
+    nvim_data_dir=nvim
 fi
 export XDG_CONFIG_HOME XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME
 

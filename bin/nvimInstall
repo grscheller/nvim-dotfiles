@@ -137,13 +137,13 @@ case "$DF_ACTION" in
         ;;
     clean)
         remove_item "$XDG_CONFIG_HOME/nvim"
-        remove_item "$XDG_DATA_HOME/$_nvim_data_dir/lazy"
-        remove_item "$XDG_STATE_HOME/$_nvim_data_dir/lazy"
+        remove_item "$XDG_DATA_HOME/$nvim_data_dir/lazy"
+        remove_item "$XDG_STATE_HOME/$nvim_data_dir/lazy"
         ;;
     nuke)
         remove_item "$XDG_CONFIG_HOME/nvim"
-        remove_item "$XDG_DATA_HOME/$_nvim_data_dir"
-        remove_item "$XDG_STATE_HOME/$_nvim_data_dir"
+        remove_item "$XDG_DATA_HOME/$nvim_data_dir"
+        remove_item "$XDG_STATE_HOME/$nvim_data_dir"
         remove_item "$XDG_CACHE_HOME/nvim"
         ;;
 esac
