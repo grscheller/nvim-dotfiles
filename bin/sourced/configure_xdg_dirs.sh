@@ -28,7 +28,7 @@ then
     nvim_data_dir=nvim-data
 else
     # Linux
-    _ensure_dirs_exist=yes
+    _ensure_xdg_dirs_exist=yes
     : "${XDG_CONFIG_HOME:=$HOME/.config}"
     : "${XDG_DATA_HOME:=$HOME/.local/share}"
     : "${XDG_STATE_HOME:=$HOME/.local/state}"
