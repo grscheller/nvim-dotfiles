@@ -97,8 +97,6 @@ toml_files='
 
 remove_items="
     $HOME/.vimrc
-    $XDG_CONFIG_HOME/nvim/sgconfig.yaml
-    $XDG_CONFIG_HOME/nvim/lua/lib/format.lua
 "
 
 dirs_to_create=""
@@ -139,13 +137,13 @@ case "$DF_ACTION" in
         ;;
     clean)
         remove_item "$XDG_CONFIG_HOME/nvim"
-        remove_item "$XDG_DATA_HOME/nvim/lazy"
-        remove_item "$XDG_STATE_HOME/nvim/lazy"
+        remove_item "$XDG_DATA_HOME/$_nvim_data_dir/lazy"
+        remove_item "$XDG_STATE_HOME/$_nvim_data_dir/lazy"
         ;;
     nuke)
         remove_item "$XDG_CONFIG_HOME/nvim"
-        remove_item "$XDG_DATA_HOME/nvim"
-        remove_item "$XDG_STATE_HOME/nvim"
+        remove_item "$XDG_DATA_HOME/$_nvim_data_dir"
+        remove_item "$XDG_STATE_HOME/$_nvim_data_dir"
         remove_item "$XDG_CACHE_HOME/nvim"
         ;;
 esac
