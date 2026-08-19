@@ -1,7 +1,6 @@
 #!/bin/dash
 #
-# Installs Neovim configuration files into the
-# user's $HOME directory.
+# Installs Neovim configuration files into the user's $HOME directory.
 #
 # usage: nvimInstall [ --install | --check | --remove | --clean | --nuke ]
 #
