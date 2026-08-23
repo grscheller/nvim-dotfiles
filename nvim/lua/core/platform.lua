@@ -12,18 +12,12 @@ local M = {}
 
 --[[ Predicates ]]
 
--- `win32` means "MS Windows", not "32-bit". It is 1 on 64-bit Windows as well,
--- and is the test Neovim itself documents.
+-- Recommended test Neovim itself documents to determoine if MS Windows.
 M.is_windows = vim.fn.has 'win32' == 1
 
 --[[ Path components ]]
 
--- Separator between entries of $PATH and friends.
---
--- NOTE: There is deliberately no `path_sep` ('\' vs '/') here. Neovim accepts
---       forward slashes on Windows, and `vim.fs.joinpath` already produces
---       portable results, so nothing in this config needs to build a path by
---       hand.
+-- Separator between entries of $PATH like lists
 M.path_list_sep = M.is_windows and ';' or ':'
 
 --[[ Shells ]]

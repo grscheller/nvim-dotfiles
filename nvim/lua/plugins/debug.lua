@@ -4,7 +4,7 @@
      - Language adapters
 ]]
 
-local platform = require 'lib.platform'
+local platform = require 'core.platform'
 
 ---@type LazySpec
 return {

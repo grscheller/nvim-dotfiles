@@ -74,9 +74,9 @@ dot_config_files='
     lua/config/treesitter.lua
     lua/core/lazy.lua
     lua/core/lsp.lua
+    lua/core/platform.lua
     lua/lib/functional.lua
     lua/lib/mason.lua
-    lua/lib/platform.lua
     lua/lib/scroll.lua
     lua/lib/text.lua
     lua/plugins/debug.lua
@@ -96,6 +96,7 @@ toml_files='
 
 remove_items="
     $HOME/.vimrc
+    $HOME/.config/nvim/lua/lib/platform.lua
 "
 
 dirs_to_create=""

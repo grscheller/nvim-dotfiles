@@ -3,6 +3,13 @@
      - TODO: description
 ]]
 
+local platform = require 'core.platform'
+
+if platform.is_windows then
+   ---type LazyPluginSpec
+   return {}
+end
+
 ---@type LazyPluginSpec
 return {
    [1] = 'nvim-neorg/neorg',

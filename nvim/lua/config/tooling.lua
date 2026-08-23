@@ -6,7 +6,7 @@
 ]]
 
 local functional = require 'lib.functional'
-local platform = require 'lib.platform'
+local platform = require 'core.platform'
 
 local concat = functional.concat_arrays
 local flatten = functional.flatten_array
@@ -19,6 +19,17 @@ local M = {}
 vim.env.PATH = vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'bin')
    .. platform.path_list_sep
    .. vim.env.PATH
+
+-- hererocks' bin, so lazy.nvim can resolve `luarocks.bat` by name.
+-- libuv resolves bare command names against the parent process's
+-- PATH, not the `env` table passed to the child -- so lazy's own
+-- env is not enough.
+vim.env.PATH = vim.fs.joinpath(
+   vim.fn.stdpath 'data',
+   'lazy-rocks',
+   'hererocks',
+   'bin'
+) .. platform.path_list_sep .. vim.env.PATH
 
 -- LSP servers managed by Neovim via ~/.config/nvim/lsp/
 local lsp_servers_nvim = {

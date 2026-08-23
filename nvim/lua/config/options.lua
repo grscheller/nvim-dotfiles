@@ -1,6 +1,6 @@
 --[[ Options - loaded before lazy takes control ]]
 
-local platform = require 'lib.platform'
+local platform = require 'core.platform'
 
 vim.o.shell = platform.shell -- some plugins need POSIX shells 
 

@@ -4,7 +4,7 @@
 
 ]]
 
-local platform = require 'lib.platform'
+local platform = require 'core.platform'
 local scroll = require 'lib.scroll'
 
 local km = vim.keymap.set
