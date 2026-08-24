@@ -1,7 +1,8 @@
 --[[ Configure LSP servers, DAP adapters, Linters and Formatters
 
-     Make sure mason's bin directory is available and trumps any system
-     installed version of the tools. Mason may not yet be lazy loaded.
+     Before returning the module, make sure mason's bin directory is available
+     and trumps any system installed version of the tools. Mason may not yet be
+     lazy loaded.
 
 ]]
 
@@ -15,21 +16,6 @@ local sort_uniq = functional.sort_array_uniq
 local values = functional.get_table_values
 
 local M = {}
-
-vim.env.PATH = vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'bin')
-   .. platform.path_list_sep
-   .. vim.env.PATH
-
--- -- hererocks' bin, so lazy.nvim can resolve `luarocks.bat` by name.
--- -- libuv resolves bare command names against the parent process's
--- -- PATH, not the `env` table passed to the child -- so lazy's own
--- -- env is not enough.
--- vim.env.PATH = vim.fs.joinpath(
---    vim.fn.stdpath 'data',
---    'lazy-rocks',
---    'hererocks',
---    'bin'
--- ) .. platform.path_list_sep .. vim.env.PATH
 
 -- LSP servers managed by Neovim via ~/.config/nvim/lsp/
 local lsp_servers_nvim = {
@@ -106,5 +92,30 @@ M.formatters = {
 M.linters_and_formatters_mason = sort_uniq(
    concat(flatten(values(M.linters)), flatten(values(M.formatters)))
 )
+
+--[[
+    The first time this module is required, path adjustments are needed
+    so that Mason managed tools are found before system tools, even if
+    when mason is not lazy loaded yet.
+
+    Commented out section was an attempt to get hererocks working on windows.
+]]
+
+-- Path adjustments so Mason managed versions are used.
+vim.env.PATH = vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'bin')
+   .. platform.path_list_sep
+   .. vim.env.PATH
+
+-- Hererocks builds on windows but lazy.nvim fails to launch it.
+-- -- Path adjustments to so lazy.nvim can resolve `luarocks.bat` by name.
+-- -- libuv resolves bare command names against the parent process's
+-- -- PATH, not the `env` table passed to the child -- so lazy's own
+-- -- env is not enough.
+-- vim.env.PATH = vim.fs.joinpath(
+--    vim.fn.stdpath 'data',
+--    'lazy-rocks',
+--    'hererocks',
+--    'bin'
+-- ) .. platform.path_list_sep .. vim.env.PATH
 
 return M
