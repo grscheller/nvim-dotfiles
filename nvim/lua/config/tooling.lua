@@ -88,10 +88,10 @@ M.linters = {
 
 M.formatters = {
    c = { 'clang-format' },
-   clojure = { 'cljfmt' },
+   clojure = platform.is_windows and {} or { 'cljfmt' }, -- needs a JVM
    cpp = { 'clang-format' },
    css = { 'prettierd' },
-   haskell = { 'fourmolu' },
+   haskell = platform.is_windows and {} or { 'fourmolu' }, -- mason reports Windows not supported
    html = { 'prettierd' },
    java = { 'clang-format' },
    js = { 'clang-format' },
