@@ -173,3 +173,5 @@ test "$DF_ACTION" = check && {
         printf '             recompiled on the next install.\n\n'
     fi
 }
+
+exit 0
