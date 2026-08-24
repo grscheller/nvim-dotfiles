@@ -1,8 +1,10 @@
---[[ Configure LSP servers, DAP adapters, Linters and Formatters
+--[[ Configure LSP servers, DAP adapters, linters and formatters
 
-     Before returning the module, make sure mason's bin directory is available
-     and trumps any system installed version of the tools. Mason may not yet be
-     lazy loaded.
+     Pure data, with one exception: the `$PATH` adjustment just above
+     `return M`. That belongs here because this module is required by
+     `core.lsp`, which `init.lua` runs before `core.lazy` -- so Mason's
+     `bin` is on the path before any plugin loads, including Mason
+     itself, which is lazy loaded on its own commands.
 
 ]]
 
@@ -74,10 +76,14 @@ M.linters = {
 
 M.formatters = {
    c = { 'clang-format' },
-   clojure = platform.is_windows and {} or { 'cljfmt' }, -- needs a JVM
+   -- cljfmt is a JVM program. On Linux the fish function `jdk_version`
+   -- puts a JDK on $PATH; there is no equivalent here.
+   clojure = platform.is_windows and {} or { 'cljfmt' },
    cpp = { 'clang-format' },
    css = { 'prettierd' },
-   haskell = platform.is_windows and {} or { 'fourmolu' }, -- mason reports Windows not supported
+   -- fourmolu publishes Linux binaries only. Mason's manifest has no
+   -- Windows target: "The current platform is unsupported."
+   haskell = platform.is_windows and {} or { 'fourmolu' },
    html = { 'prettierd' },
    java = { 'clang-format' },
    js = { 'clang-format' },
@@ -93,24 +99,46 @@ M.linters_and_formatters_mason = sort_uniq(
    concat(flatten(values(M.linters)), flatten(values(M.formatters)))
 )
 
---[[
-    The first time this module is required, path adjustments are needed
-    so that Mason managed tools are found before system tools, even if
-    when mason is not lazy loaded yet.
+--[[ $PATH adjustment
 
-    Commented out section was an attempt to get hererocks working on windows.
+     Mason's `bin` goes first so its tools win over any system
+     installed version. Runs once, when this module is first required.
 ]]
 
--- Path adjustments so Mason managed versions are used.
 vim.env.PATH = vim.fs.joinpath(vim.fn.stdpath 'data', 'mason', 'bin')
    .. platform.path_list_sep
    .. vim.env.PATH
 
--- Hererocks builds on windows but lazy.nvim fails to launch it.
--- -- Path adjustments to so lazy.nvim can resolve `luarocks.bat` by name.
--- -- libuv resolves bare command names against the parent process's
--- -- PATH, not the `env` table passed to the child -- so lazy's own
--- -- env is not enough.
+--[[ Rejected: hererocks on Windows -- do not re-enable
+
+     Kept as a record, because the obvious fix makes things worse.
+
+     hererocks itself builds fine on Windows once a `python` is on
+     $PATH. What fails is lazy.nvim invoking the luarocks it produced:
+
+       Failed to spawn process luarocks.bat ... env = { PATH = ... }
+
+     The env lazy.nvim passes is correct, but libuv resolves a bare
+     command name against the *parent* process's $PATH, not the env
+     handed to the child. Demonstrated with:
+
+       :=vim.system({'luarocks.bat', '--version'}):wait()
+       -> ENOENT: no such file or directory (cmd): 'luarocks.bat'
+
+       :lua vim.env.PATH = <hererocks>/bin .. ';' .. vim.env.PATH
+       :=vim.system({'luarocks.bat', '--version'}):wait()
+       -> code = 0, LuaRocks 3.13.0
+
+     So prepending hererocks' bin below looks like the fix. It is not.
+     With a luarocks visible on $PATH, lazy.nvim concludes hererocks is
+     unnecessary, marks it for Clean, and switches to invoking bare
+     `luarocks` with an empty env -- which fails the same way, minus
+     the `.bat` extension. Strictly worse than leaving it alone.
+
+     Neorg and its two tree-sitter-norg rocks are disabled on Windows
+     instead. See `plugins/neorg.lua`.
+]]
+
 -- vim.env.PATH = vim.fs.joinpath(
 --    vim.fn.stdpath 'data',
 --    'lazy-rocks',
