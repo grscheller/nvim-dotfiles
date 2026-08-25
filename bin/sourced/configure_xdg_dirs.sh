@@ -37,10 +37,12 @@ else
     : "${XDG_DATA_HOME:=$HOME/.local/share}"
     : "${XDG_STATE_HOME:=$HOME/.local/state}"
     : "${XDG_CACHE_HOME:=$HOME/.cache}"
-    export XDG_CONFIG_HOME XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME
     # shellcheck disable=SC2034  # consumed by nvimInstall after sourcing
     nvim_data_dir=nvim
 fi
+
+export XDG_CONFIG_HOME XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME
+export WIN_LOCAL_APP_DATA WIN_CACHE_HOME
 
 ensure_dir "$XDG_CONFIG_HOME" >&2
 chmod 0755 "$XDG_CONFIG_HOME"
