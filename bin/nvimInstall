@@ -29,21 +29,6 @@ umask 0022
 . ../bin/sourced/functions.sh
 . ../bin/sourced/configure_xdg_dirs.sh
 
-# On Windows nvim is a native program. We will repurpose
-# the XDG directory names with their Windows equivalents.
-if test -n "$WIN_LOCAL_APP_DATA"
-then
-    # Windows
-    : "${XDG_CONFIG_HOME:=$WIN_LOCAL_APP_DATA}"
-    : "${XDG_DATA_HOME:=$WIN_LOCAL_APP_DATA}"
-    : "${XDG_STATE_HOME:=$WIN_LOCAL_APP_DATA}"
-    : "${XDG_CACHE_HOME:=$WIN_LOCAL_APP_DATA/TEMP}"
-    nvim_data_dir=nvim-data
-else
-    # Linux
-    nvim_data_dir=nvim
-fi
-
 dot_config_files='
     after/ftplugin/c.lua
     after/ftplugin/cpp.lua

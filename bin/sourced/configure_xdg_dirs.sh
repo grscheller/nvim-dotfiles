@@ -16,29 +16,25 @@
 #
 # shellcheck shell=sh
 
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:=$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:=$HOME/.local/share}"
+export XDG_State_HOME="${XDG_STATE_HOME:=$HOME/.local/state}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:=$HOME/.cache}"
+# shellcheck disable=SC2034  # consumed by nvimInstall after sourcing
+nvim_data_dir=nvim
+
+# On Windows nvim is a native program. We will repurpose
+# the XDG directory names with their Windows equivalents.
 if test "$OS" = Windows_NT
 then
     # Window 11
-    _local_app_data="$(cygpath -u "$LOCALAPPDATA")"
-    : "${WIN_LOCAL_APP_DATA:=$_local_app_data}"
-    : "${WIN_CACHE_HOME:=$_local_app_data/Temp}"
-    unset _local_app_data
-    : "${XDG_CONFIG_HOME:=$HOME/.config}"
-    : "${XDG_DATA_HOME:=$HOME/.local/share}"
-    : "${XDG_STATE_HOME:=$HOME/.local/state}"
-    : "${XDG_CACHE_HOME:=$HOME/.cache}"
-    # shellcheck disable=SC2034  # consumed by nvimInstall after sourcing
+    win_local_app_data="$(cygpath -u "$LOCALAPPDATA")"
+    XDG_CONFIG_HOME="$win_local_app_data"
+    XDG_DATA_HOME="$win_local_app_data"
+    XDG_State_HOME="$win_local_app_data"
+    XDG_CACHE_HOME="$win_local_app_data/TEMP"
+    unset win_local_app_data
     nvim_data_dir=nvim-data
-else
-    # Linux
-    : "${WIN_LOCAL_APP_DATA:=}"
-    : "${WIN_CACHE_HOME:=}"
-    : "${XDG_CONFIG_HOME:=$HOME/.config}"
-    : "${XDG_DATA_HOME:=$HOME/.local/share}"
-    : "${XDG_STATE_HOME:=$HOME/.local/state}"
-    : "${XDG_CACHE_HOME:=$HOME/.cache}"
-    # shellcheck disable=SC2034  # consumed by nvimInstall after sourcing
-    nvim_data_dir=nvim
 fi
 
 export XDG_CONFIG_HOME XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME
