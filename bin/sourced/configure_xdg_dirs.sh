@@ -1,18 +1,11 @@
 ## Setup XDG Desktop folder locations
 #
-# grscheller/nvim-dotfiles uses XDG names in its setup scripts.
+# XDG names are used in the install scripts.
 #
 # - defaults to standard locations if not already defined
 #   - can override in shell for multiple configs to exist
-#   - nvim on LINUX & Windows will honor these when exported
-#     - will use platform dependent defaults when not
-#   - nvim on Windows is a native windows app
-#     - nvimInstall need to override XDG names with equivalent Windows locations
-#       - default Windows locations already exist
-#       - their ACL's are not the user's to change
+#   - fish on LINUX or MSYS2 uses these when exported
 # - tries to ensure XDG directories exist
-# - XDG names can be overridden for multiple configurations to coexist
-#   - untested so far on Windows
 #
 # shellcheck shell=sh
 
@@ -32,7 +25,7 @@ then
     XDG_CONFIG_HOME="$win_local_app_data"
     XDG_DATA_HOME="$win_local_app_data"
     XDG_STATE_HOME="$win_local_app_data"
-    XDG_CACHE_HOME="$win_local_app_data/TEMP"
+    XDG_CACHE_HOME="$win_local_app_data/Temp"
     unset win_local_app_data
     # shellcheck disable=SC2034  # consumed by nvimInstall after sourcing
     nvim_data_dir=nvim-data
