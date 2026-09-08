@@ -32,6 +32,8 @@ fi
 
 export XDG_CONFIG_HOME XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME
 
+# On Windows these are system managed directories whose ACLs
+# are not mine to change.
 if test "$OS_GRS" != windows
 then
     ensure_dir "$XDG_CONFIG_HOME" >&2
