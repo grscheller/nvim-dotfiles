@@ -14,7 +14,7 @@ return {
    {
       [1] = 'saghen/blink.cmp',
       dependencies = {
-         'saghen/blink.lib',  -- will be needed for v2.0.0
+         'saghen/blink.lib', -- will be needed for v2.0.0
          'niuiic/blink-cmp-rg.nvim',
          'onsails/lspkind.nvim',
          'nvim-tree/nvim-web-devicons',
@@ -34,36 +34,36 @@ return {
                         text = function(ctx)
                            local icon = ctx.kind_icon
                            if
-                              vim.tbl_contains(
-                                 { 'Path' },
-                                 ctx.source_name
-                              )
+                               vim.tbl_contains(
+                                  { 'Path' },
+                                  ctx.source_name
+                               )
                            then
                               local dev_icon, _ =
-                                 require('nvim-web-devicons').get_icon(
-                                    ctx.label
-                                 )
+                                  require('nvim-web-devicons').get_icon(
+                                     ctx.label
+                                  )
                               if dev_icon then
                                  icon = dev_icon
                               end
                            else
                               icon = require('lspkind').symbol_map[ctx.kind]
-                                 or ''
+                                  or ''
                            end
                            return icon .. ctx.icon_gap
                         end,
                         highlight = function(ctx)
                            local hl = ctx.kind_hl
                            if
-                              vim.tbl_contains(
-                                 { 'Path' },
-                                 ctx.source_name
-                              )
+                               vim.tbl_contains(
+                                  { 'Path' },
+                                  ctx.source_name
+                               )
                            then
                               local dev_icon, dev_hl =
-                                 require('nvim-web-devicons').get_icon(
-                                    ctx.label
-                                 )
+                                  require('nvim-web-devicons').get_icon(
+                                     ctx.label
+                                  )
                               if dev_icon then
                                  hl = dev_hl
                               end
@@ -110,8 +110,8 @@ return {
                      end,
                      get_prefix = function(context)
                         return context.line
-                           :sub(1, context.cursor[2])
-                           :match '[%w_-]+$' or ''
+                            :sub(1, context.cursor[2])
+                            :match '[%w_-]+$' or ''
                      end,
                   },
                },
@@ -125,13 +125,10 @@ return {
    {
       'saghen/blink.pairs',
       dependencies = { 'saghen/blink.lib' },
-      version = '*',
       event = { 'InsertEnter', 'CmdlineEnter' },
       build = function()
-         -- blink.lib.Task's generic isn't resolving when download() returns an
-         -- unparameterized `blink.lib.Task`, so lua_ls can't see wait/pwait — false positive.
          ---@diagnostic disable-next-line: undefined-field
-         require('blink.pairs').download():wait(60000)  -- changed pwait to wait to give better failure info
+         require('blink.pairs').build():wait(60000)
       end,
       opts = {
          mappings = {
@@ -164,19 +161,19 @@ return {
          km('n', 'S', '<Plug>(leap-from-window)', { desc = 'leap from window' })
          km({ 'n', 'x', 'o' }, 'gx', '<Plug>(leap-anywhere)', { desc = 'leap anywhere' })
          km({ 'n', 'x', 'o' }, '<cr>', function()
-               require('leap').leap {
-                  ['repeat'] = true,
-                  opts = require('leap.user').with_traversal_keys('<cr>', '<bs>'),
-               }
-            end
+            require('leap').leap {
+               ['repeat'] = true,
+               opts = require('leap.user').with_traversal_keys('<cr>', '<bs>'),
+            }
+         end
          )
          km({ 'n', 'x', 'o' }, '<bs>', function()
-               require('leap').leap {
-                  ['repeat'] = true,
-                  opts = require('leap.user').with_traversal_keys('<bs>', '<cr>'),
-                  backward = true,
-               }
-            end
+            require('leap').leap {
+               ['repeat'] = true,
+               opts = require('leap.user').with_traversal_keys('<bs>', '<cr>'),
+               backward = true,
+            }
+         end
          )
       end,
    },
