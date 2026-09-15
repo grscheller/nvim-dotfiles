@@ -596,6 +596,7 @@ USSF
 # Mathematics
 ## math algebra
 abelian
+combinatorics
 contra
 contravariant
 covariant
@@ -870,12 +871,14 @@ autodoc
 autofunction
 automodule
 autosummary
+bgcolor
 bool
 builtins
 Callable's
 cmath
 dict
 dicts
+digraph
 dunder
 dunders
 elif
@@ -884,11 +887,15 @@ enums
 errorlog
 ExceptionGroup
 falsy
+fillcolor
+fgcolor
+fontcolor
 frozenset
 functools
 furo
 gitsigns
 globalns
+graphviz
 hasattr
 IndexError
 infj
@@ -912,7 +919,7 @@ iterators
 len
 libapue
 localns
-matplotlib
+mathplotlib
 mypy
 namedtuple
 NoneType
@@ -1287,6 +1294,7 @@ installable
 instantiatable
 instantiation
 ints
+iscinumpy
 iwd
 JDK
 jedi
