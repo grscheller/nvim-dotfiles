@@ -36,5 +36,7 @@ return {
       '.ruff.toml',
       '.git',
    },
-   settings = {},
+   init_options = {
+      settings = {},
+   }
 }
