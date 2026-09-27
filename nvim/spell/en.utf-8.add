@@ -42,6 +42,7 @@ lingua franca
 lookups
 maintainer's
 Mapquest
+matchable
 merchantability
 meth
 minimalistic
@@ -309,6 +310,7 @@ CAF
 caf
 CHANGELOG
 circulararray
+cls
 currDir
 crap1
 crap2
@@ -920,6 +922,8 @@ len
 libapue
 localns
 mathplotlib
+mro
+MRO
 mypy
 namedtuple
 NoneType
