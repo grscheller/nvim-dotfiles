@@ -901,6 +901,7 @@ fontcolor
 frozenset
 functools
 furo
+getstate
 gitsigns
 globalns
 graphviz
@@ -971,6 +972,7 @@ repr
 resulttype
 rtype
 RunTimeError
+setstate
 Setuptools
 Stackage
 staticmethod
