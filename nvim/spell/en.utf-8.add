@@ -884,6 +884,7 @@ bool
 builtins
 Callable's
 cmath
+deepcopy
 dict
 dicts
 digraph
@@ -983,6 +984,9 @@ tox
 truthy
 tvars
 TypeError
+unpickle
+unpickled
+unpickling
 unpythonic
 unslotted
 uv
